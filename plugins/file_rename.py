@@ -90,8 +90,7 @@ async def doc(bot, update):
 
     if c_caption:
         try:
-            caption = c_caption.format(filename=new_filename, filesize=humanbytes(
-                media.file_size), duration=convert(duration))
+            caption = c_caption.format(filename=new_filename, filesize=humanbytes(media.file_size), duration=convert(duration))
         except Exception as e:
             return await ms.edit(text=f"Yᴏᴜʀ Cᴀᴩᴛɪᴏɴ Eʀʀᴏʀ Exᴄᴇᴩᴛ Kᴇyᴡᴏʀᴅ Aʀɢᴜᴍᴇɴᴛ ●> ({e})")
     else:
@@ -119,7 +118,6 @@ async def doc(bot, update):
             cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
             
-
         stdout, stderr = await process.communicate()
         er = stderr.decode()
 
@@ -130,18 +128,11 @@ async def doc(bot, update):
             pass
 
     await ms.edit("Mᴇᴛᴀᴅᴀᴛᴀ ᴀᴅᴅᴇᴅ ᴛᴏ ᴛʜᴇ ғɪʟᴇ sᴜᴄᴄᴇssғᴜʟʟʏ ✅\n\n⚠️__**Please wait...**__\n**Tʀyɪɴɢ Tᴏ Uᴩʟᴏᴀᴅɪɴɢ....**")
-    type = update.data.split("_")[1]
+    
     try:
-        if type == "document":
-            await bot.send_document(
-                update.from_user.id,
-                document=metadata_path,
-                thumb=ph_path,
-                caption=caption,
-                progress=progress_for_pyrogram,
-                progress_args=("⚠️__**Please wait...**__\n🌨️ **Uᴩʟᴏᴅ Sᴛᴀʀᴛᴇᴅ....**", ms, time.time()))
-        elif type == "video":
+        if media.file_name.lower().endswith(".mp4"):
             await bot.send_video(
+
                 update.from_user.id,
                 video=metadata_path,
                 caption=caption,
